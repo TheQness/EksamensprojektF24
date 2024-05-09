@@ -10268,18 +10268,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mario
       objectReference: {fileID: 0}
-    - target: {fileID: 2986466385450726885, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2986466385450726885, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: m_TagString
-      value: Mario
-      objectReference: {fileID: 0}
-    - target: {fileID: 4147353313118556188, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: leftButtonTest
-      value: 
-      objectReference: {fileID: 1391414035}
     - target: {fileID: 4389886151893528038, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
@@ -10320,30 +10308,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4576275725158707971, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4576275725158707971, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 8033469755961066960, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6027937664103697152, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6027937664103697152, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7463697744855663162, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: trues
+    - target: {fileID: 8345382442873102383, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7463697744855663162, guid: 19388b4f272bead4ba2525734a29c380, type: 3}
-      propertyPath: button
-      value: 
-      objectReference: {fileID: 1838891626}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -12,16 +12,19 @@ public class PlayerMovement : MonoBehaviour
     private const float movementSpeed = 8f; // Movement speed of the player
     private float inputAxis; // Input axis for horizontal movement (-1 for left, 1 for right)
     private Vector2 velocity;  // Velocity vector for smooth movement
-    private bool isMovingLeft; //Bool indicating if the player is moving left
-    private bool isMovingRight; //Bool indicating if the player is moving right
+
 
     [Header("Variables for jumping")]
     private float maxJumpHeight = 5f; //max jump height of 5 units/blocks
     private float maxJumpTime = 1f; // max jumptime the character spends in the air, 1 second
     private float jumpColliderRadius = 0.25f; //collider radius for circle raycast
     private float jumpColliderDistance = 0.375f; //maximum collider distance for collider raycast
-    public bool isGrounded { get; private set; }
 
+    public bool isGrounded { get; private set; }
+    public bool isJumping {get; private set; } // bool to check if the character is jumping. Can be accessed from outside the class but can only be modified within the class.
+    public bool isTurning => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f); //turning if the input axis has the oposite value pof velocity in terms of positive negative
+    public bool isRunning => Mathf.Abs(velocity.x) > 0.25f || Mathf.Abs(inputAxis) > 0.25f; // gets the absolute number of his velocity or input axis (always positive), and if it above 0.25, mario is running. 0.25 ensures his moving a little before sprite changes.
+    //public bool isIdle => Mathf.Abs(velocity.x) == 0f && Mathf.Abs(inputAxis) > 0.25f;
     /*
     property (not variable) that calculates the force needed to achieve the desired max jump height and time using the jumpForce formula. 
     Max jumptime is devided by 2, as the character will spend half of the time ascending and descending
@@ -34,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     */
     public float gravity => (-2 * maxJumpHeight) / Mathf.Pow((maxJumpTime / 2f), 2); 
     //public bool isGrounded {get; private set; } // bool to check if the character is grounded. Can be accessed from outside the class but can only be modified within the class. (encapsulation).
-    [SerializeField] public bool isJumping {get; private set; } // bool to check if the character is jumping. Can be accessed from outside the class but can only be modified within the class.
+   
     private bool isJumpReleased = false;
 
 
@@ -78,20 +81,16 @@ public class PlayerMovement : MonoBehaviour
     // Methods for horizontal movement
     public void MoveLeft() //Method to initiate left movement
     {
-        isMovingLeft = true;
         inputAxis = -1f;
     }
 
     public void MoveRigth() //Method to initiate right movement
     {
-        isMovingRight = true;
         inputAxis = 1f;
     }
 
     public void StopMovement() //Method to stop movement
     {
-        isMovingRight = false;
-        isMovingLeft = false;
         inputAxis = 0f;
     }
 
@@ -107,6 +106,17 @@ public class PlayerMovement : MonoBehaviour
         if (rigidBody.Raycast(Vector2.right * velocity.x, jumpColliderRadius, jumpColliderDistance)) //checks if mario collides with wall, if true, velocity is set to 0
         {
             velocity.x = 0f;
+            inputAxis = 0f;
+        }
+
+        //renders sprite to the right or left based on velocity, not on input.
+        if (velocity.x > 0f)
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+        else if(velocity.x < 0f)
+        {
+            transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
     }
 
@@ -157,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
             }
        }
     }
+
 
 
 

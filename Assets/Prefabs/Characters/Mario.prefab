@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7463697744855663162}
   m_Layer: 3
   m_Name: Mario
-  m_TagString: Untagged
+  m_TagString: Mario
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59,9 +59,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &641786951237333810
 CapsuleCollider2D:
@@ -120,6 +120,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7556218187823814818}
   - component: {fileID: 7831060962216618249}
+  - component: {fileID: 4639880023421346333}
+  - component: {fileID: 8558443987665967449}
   m_Layer: 3
   m_Name: Small
   m_TagString: Untagged
@@ -194,6 +196,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4639880023421346333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576275725158707971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5feca8526243144bc08caf6b898cc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  idle: {fileID: 21300000, guid: 1175995f561461044a9e5df1788c664b, type: 3}
+  jump: {fileID: 21300000, guid: fc859ed9bea2a3943875f7f06be75906, type: 3}
+  turn: {fileID: 21300000, guid: 841caad7f996cf34d9c7710af4b8ecd0, type: 3}
+  run: {fileID: 8558443987665967449}
+--- !u!114 &8558443987665967449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576275725158707971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b99807cef0da8f4096e40dc0f010473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: cd8127e3a6b37654aae9779fffedab13, type: 3}
+  - {fileID: 21300000, guid: a534b8c4e1cd8004cb5b4db02c4d9137, type: 3}
+  - {fileID: 21300000, guid: cf065279fa8c4994f8a2fc9dcca44a82, type: 3}
+  - {fileID: 21300000, guid: a534b8c4e1cd8004cb5b4db02c4d9137, type: 3}
+  frameRate: 0.16666667
 --- !u!1 &6027937664103697152
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +241,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4438269891884618153}
   - component: {fileID: 5483855946518925861}
+  - component: {fileID: 8033469755961066960}
+  - component: {fileID: 8345382442873102383}
   m_Layer: 3
   m_Name: Big
   m_TagString: Untagged
@@ -278,3 +317,38 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8033469755961066960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6027937664103697152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5feca8526243144bc08caf6b898cc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  idle: {fileID: 21300000, guid: fb0b1d14a7c15d6468d5841365a870d0, type: 3}
+  jump: {fileID: 21300000, guid: 375403572299f7c458f9d0646c3c4290, type: 3}
+  turn: {fileID: 21300000, guid: 6adcd3e0ef8662d449ffcfe7e4bb5fcb, type: 3}
+  run: {fileID: 8345382442873102383}
+--- !u!114 &8345382442873102383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6027937664103697152}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b99807cef0da8f4096e40dc0f010473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 44d7f7f98350ca3498bbf91ac0844ce0, type: 3}
+  - {fileID: 21300000, guid: e7a6787229c32c04fba2b4e5eda4b775, type: 3}
+  - {fileID: 21300000, guid: f6ae6b7599f8677428f18fe88871741e, type: 3}
+  - {fileID: 21300000, guid: e7a6787229c32c04fba2b4e5eda4b775, type: 3}
+  frameRate: 0.16666667

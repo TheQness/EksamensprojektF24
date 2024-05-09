@@ -14,7 +14,19 @@ public static class Extensions //does not inheret from MonoBehavior
             return false;
         }
 
-    RaycastHit2D hit = Physics2D.CircleCast(rigidBody.position, radius, direction, distance, layerMask); //casts a circle-shaped ray in the specified direction from the position of the rigidBody, which is stored in a RaycastHit2D variable named hit.
+    RaycastHit2D hit = Physics2D.CircleCast(rigidBody.position, radius, direction.normalized, distance, layerMask); //casts a circle-shaped ray in the specified direction from the position of the rigidBody, which is stored in a RaycastHit2D variable named hit.
     return hit.collider != null ; //returns true if the raycast hits a collider and the rigidbody of the object hit is not the same as the rigidbody on which the method is called. If either condition is not met, it returns false.
+   }
+
+   public static bool DotTest(this Transform transform, Transform other, Vector2 testDirection) //extension to the Transform class, calculates the dot product (angle) between the direction vector from Mario to the collided object
+   {
+    float detectionThreshold = 0.25f; //threshold that detects, if the object is above him. if the angle is 
+    Vector2 direction = other.position - transform.position; //gives a vector that points from marios position to the collided objects direction. 
+    return Vector2.Dot(direction.normalized, testDirection) > detectionThreshold; //normalized to set the length of vector to 1, as we are bot interested in the length, only the direction. measures how much the two vector points in the same direction
+   // normalized makes the range of the dot product go between -1 and 1. 
+    //If the dot product is 1, it means the vectors are pointing in exactly the same direction.
+    //If the dot product is -1, it means the vectors are pointing in exactly opposite directions.
+    //If the dot product is 0, it means the vectors are orthogonal (perpendicular) to each other.
+   //If the dot product result (which represents the cosine of the angle between the two vectors) is greater than the detection threshold , it indicates that the angle between the vectors is acute, meaning Mario is hitting the object above him.
    }
 }

@@ -8,7 +8,7 @@ public class SideScrolling : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.FindWithTag("Mario").transform;
+        player = GameObject.FindWithTag("Player").transform;
     }
     // using lateupdate garantues that the camera posotion updates after marios position is updated in fixedupdate
     private void LateUpdate()

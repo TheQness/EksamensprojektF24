@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 7580948384325394685}
   - component: {fileID: 641786951237333810}
   - component: {fileID: 7463697744855663162}
+  - component: {fileID: 4081172767462105729}
+  - component: {fileID: 3493051247931771923}
   m_Layer: 3
   m_Name: Mario
-  m_TagString: Mario
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,6 +112,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb33040a13a58d489247aae3546292a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4081172767462105729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986466385450726885}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf25fbf0534796740a9a2f481104121f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSprite: {fileID: 21300000, guid: 0046a306a195bc2488bdcc81d3f912b3, type: 3}
+  spriteRenderer: {fileID: 7831060962216618249}
+--- !u!114 &3493051247931771923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986466385450726885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd0e7e87f0e1a247b564e0e0b027dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smallRenderer: {fileID: 4639880023421346333}
+  bigRenderer: {fileID: 8033469755961066960}
 --- !u!1 &4576275725158707971
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5feca8526243144bc08caf6b898cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
   idle: {fileID: 21300000, guid: 1175995f561461044a9e5df1788c664b, type: 3}
   jump: {fileID: 21300000, guid: fc859ed9bea2a3943875f7f06be75906, type: 3}
   turn: {fileID: 21300000, guid: 841caad7f996cf34d9c7710af4b8ecd0, type: 3}
@@ -329,7 +358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5feca8526243144bc08caf6b898cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
   idle: {fileID: 21300000, guid: fb0b1d14a7c15d6468d5841365a870d0, type: 3}
   jump: {fileID: 21300000, guid: 375403572299f7c458f9d0646c3c4290, type: 3}
   turn: {fileID: 21300000, guid: 6adcd3e0ef8662d449ffcfe7e4bb5fcb, type: 3}

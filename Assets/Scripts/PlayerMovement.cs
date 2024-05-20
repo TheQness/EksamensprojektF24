@@ -17,8 +17,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Variables for jumping")]
     private float maxJumpHeight = 5f; //max jump height of 5 units/blocks
     private float maxJumpTime = 1f; // max jumptime the character spends in the air, 1 second
-    private float jumpColliderRadius = 0.25f; //collider radius for circle raycast
-    private float jumpColliderDistance = 0.375f; //maximum collider distance for collider raycast
 
     public bool isGrounded { get; private set; }
     public bool isJumping {get; private set; } // bool to check if the character is jumping. Can be accessed from outside the class but can only be modified within the class.
@@ -51,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     {
         HorizontalMovement();
         
-        isGrounded = rigidBody.Raycast(Vector2.down, jumpColliderRadius, jumpColliderDistance); //checks if mario is grounded through raycast extension
+        isGrounded = rigidBody.Raycast(Vector2.down); //checks if mario is grounded through raycast extension
 
         if(isGrounded) 
         {
@@ -103,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         //Movementspeed * Time.deltaTime = maximum change applied to the current value, ensures framerate independency and the desired acc and deacc
         velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * movementSpeed, movementSpeed * Time.deltaTime);
 
-        if (rigidBody.Raycast(Vector2.right * velocity.x, jumpColliderRadius, jumpColliderDistance)) //checks if mario collides with wall, if true, velocity is set to 0
+        if (rigidBody.Raycast(Vector2.right * velocity.x)) //checks if mario collides with wall, if true, velocity is set to 0
         {
             velocity.x = 0f;
             inputAxis = 0f;
@@ -156,16 +154,25 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //METHODS FOR COLLISIONS
-    //checks if character collides with a block above him to 
+    //checks if character collides with a block above him to or jumps on top of an enemy
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer != LayerMask.NameToLayer("PowerUp"))
-       {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if (transform.DotTest(collision.transform, Vector2.down))
+            {
+                velocity.y = jumpForce/2f; //half jumpsize
+                isJumping = true;
+                
+            }
+        }
+        else if (collision.gameObject.layer != LayerMask.NameToLayer("PowerUp"))
+        {
             if(transform.DotTest(collision.transform, Vector2.up))
             {
                 velocity.y = 0f;
             }
-       }
+        }
     }
 
 

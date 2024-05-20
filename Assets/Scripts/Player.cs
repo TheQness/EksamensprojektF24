@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     public PlayerSpriteRenderer smallRenderer;
     public PlayerSpriteRenderer bigRenderer;
-    private PlayerSpriteRenderer activeRenderer;
 
     private DeathAnimation deathAnimation;
 
@@ -16,20 +15,17 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         deathAnimation = GetComponent<DeathAnimation>();
-        activeRenderer = smallRenderer;
     }
     public void Hit()
     {
-        Debug.Log("2");
-        if (isBig){
+        if (isBig)
+        {
             Shrink();
-            Debug.Log("3");
-        } else {
-            Debug.Log("4");
+        }
+        else 
+        {
             Death();
         }
-
-
     }
 
     private void Shrink()
@@ -45,5 +41,13 @@ public class Player : MonoBehaviour
         GameManager.Instance.ResetLevel(3.5f);
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("DeathBarrier"))
+        {
+            gameObject.SetActive(false);
+            GameManager.Instance.ResetLevel(3f);
+        }
+    }
     
 }

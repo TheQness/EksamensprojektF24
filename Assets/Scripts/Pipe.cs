@@ -4,23 +4,60 @@ using UnityEngine;
 
 public class Pipe : MonoBehaviour
 {
-    private float shakeThreshold = 2.0f;
+    public Transform connection;
+    private float shakeThreshold = 3.0f;
     private float minShakeInterval = 0.5f;
     private float sqrShakeThreshold;
-    private float timeSinceLastShake;
+    public Vector3 enterDirection = Vector3.down;
+    public Vector3 exitDirection = Vector3.zero;
+
 
     private void Start()
     {
         sqrShakeThreshold = Mathf.Pow(shakeThreshold, 2);
     }
-
-    private void OntriggerStay2D(Collider2D other)
+    
+    private void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log("Goodbye");
-        if (other.CompareTag("Player") && Input.acceleration.sqrMagnitude >= sqrShakeThreshold);
+        if (other.CompareTag("Player") && connection != null && Input.acceleration.sqrMagnitude >= sqrShakeThreshold)
         {
-            Debug.Log("Hello");
+            //Go down into hole
+            StartCoroutine(EnterPipe(other.transform));
         }
         
     }
+
+    private IEnumerator EnterPipe(Transform player)
+    {
+        player.GetComponent<PlayerMovement>().enabled = false;
+        Vector3 enteredPosition = transform.position + enterDirection;
+        Vector3 enteredScale = Vector3.one * 0.5f;
+
+        yield return Move(player, enteredPosition, enteredScale);
+    }
+
+    private IEnumerator Move(Transform player, Vector3 endPosition, Vector3 endScale)
+    {
+        float elapsed = 0f;
+        float duration = 1f;
+
+        Vector3 startPosition = player.position;
+        Vector3 startScale = player.localScale;
+
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            player.position = Vector3.Lerp(startPosition, endPosition, t);
+            player.localScale = Vector3.Lerp(startScale, endScale, t);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        player.position = endPosition;
+        player.localScale = endScale;
+
+    }
+
 }

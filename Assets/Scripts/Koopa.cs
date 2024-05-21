@@ -14,8 +14,11 @@ public class Koopa : MonoBehaviour
         if (!isShelled && collision.gameObject.CompareTag("Player"))
         {
             Player player = collision.gameObject.GetComponent<Player>();
-
-            if (collision.transform.DotTest(transform, Vector2.down))
+            if (player.starPower)
+            {
+                Hit();
+            }
+            else if (collision.transform.DotTest(transform, Vector2.down))
             {
                 EnterShell();
             }
@@ -38,7 +41,14 @@ public class Koopa : MonoBehaviour
             else
             {
                 Player player = other.GetComponent<Player>();
-                player.Hit();
+                if (player.starPower)
+                {
+                    Hit();
+                }
+                else
+                {
+                    player.Hit();
+                }
             }
         }
         else if (!isShelled && other.gameObject.layer == LayerMask.NameToLayer("Shell"))

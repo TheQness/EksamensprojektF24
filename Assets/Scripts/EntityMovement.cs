@@ -8,11 +8,13 @@ public class EntityMovement : MonoBehaviour
     public Vector2 direction = Vector2.left;
     public float speed = 1f;
     private Vector2 velocity;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         enabled = false;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnBecameVisible()
@@ -45,6 +47,7 @@ public class EntityMovement : MonoBehaviour
         if (rigidBody.Raycast(direction))
         {
             direction = -direction;
+            spriteRenderer.flipX = !spriteRenderer.flipX;
         }
 
         if (rigidBody.Raycast(Vector2.down))
@@ -52,5 +55,5 @@ public class EntityMovement : MonoBehaviour
             velocity.y = Mathf.Max(velocity.y, 0f);
         }
     }
-    
 }
+

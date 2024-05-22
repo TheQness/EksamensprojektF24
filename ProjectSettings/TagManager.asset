@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Mario
   - DeathBarrier
+  - Flagpole
   layers:
   - Default
   - TransparentFX

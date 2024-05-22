@@ -45,18 +45,18 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void LoadLevel(int world, int stage)
+    public void LoadLevel(int world, int stage)
     {
         this.world = world;
         this.stage = stage;
         SceneManager.LoadScene($"{world}-{stage}");
     }
 
-    private void NextLevel()
+    public void NextLevel()
     {
         if (world == 1 && stage == 3)
         {
-            LoadLevel(1, 2);
+            LoadLevel(2, 1);
         }
         else 
         {
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
     
     private void GameOver()
     {
-        Invoke(nameof(StartNewGame), 3f);
+        Invoke(nameof(StartNewGame), 2f);
     }
 
     public void AddCoin()

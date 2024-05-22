@@ -12,16 +12,19 @@ public class PlayerMovement : MonoBehaviour
     private const float movementSpeed = 8f; // Movement speed of the player
     private float inputAxis; // Input axis for horizontal movement (-1 for left, 1 for right)
     private Vector2 velocity;  // Velocity vector for smooth movement
+    private Collider2D circleCollider;
+    private bool isTouchingPole;
 
 
     [Header("Variables for jumping")]
     private float maxJumpHeight = 5f; //max jump height of 5 units/blocks
     private float maxJumpTime = 1f; // max jumptime the character spends in the air, 1 second
 
+    public bool isFalling => velocity.y < 0f && !isGrounded;
     public bool isGrounded { get; private set; }
     public bool isJumping {get; private set; } // bool to check if the character is jumping. Can be accessed from outside the class but can only be modified within the class.
     public bool isTurning => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f); //turning if the input axis has the oposite value pof velocity in terms of positive negative
-    public bool isRunning => Mathf.Abs(velocity.x) > 0.25f || Mathf.Abs(inputAxis) > 0.25f; // gets the absolute number of his velocity or input axis (always positive), and if it above 0.25, mario is running. 0.25 ensures his moving a little before sprite changes.
+    public bool isRunning => Mathf.Abs(velocity.x) > 0.25f || Mathf.Abs(inputAxis) > 0.25f || isTouchingPole == true; // gets the absolute number of his velocity or input axis (always positive), and if it above 0.25, mario is running. 0.25 ensures his moving a little before sprite changes.
     //public bool isIdle => Mathf.Abs(velocity.x) == 0f && Mathf.Abs(inputAxis) > 0.25f;
     /*
     property (not variable) that calculates the force needed to achieve the desired max jump height and time using the jumpForce formula. 
@@ -42,7 +45,24 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>(); //Getting reference to the Ridigbody component of Mario
+        circleCollider = GetComponent<Collider2D>();
         camera = Camera.main; //getting reference to the main camera in the scene
+    }
+
+    private void OnDisable()
+    {
+        rigidBody.isKinematic = true;
+        circleCollider.enabled = false;
+        velocity = Vector2.zero;
+        isJumping = false;
+    }
+
+    private void OnEnable()
+    {
+        rigidBody.isKinematic = false;
+        circleCollider.enabled = true;
+        velocity = Vector2.zero;
+        isJumping = false;
     }
 
     void Update() //placed in update to make sure it calls this method before the HorizontalMovement
@@ -172,6 +192,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 velocity.y = 0f;
             }
+        }
+    }
+
+     private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Flagpole"))
+        {
+            isTouchingPole = true;
         }
     }
 

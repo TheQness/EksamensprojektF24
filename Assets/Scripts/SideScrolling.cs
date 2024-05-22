@@ -5,6 +5,8 @@ using UnityEngine;
 public class SideScrolling : MonoBehaviour
 {
     private Transform player;
+    public float height = 6.5f;
+    public float undergroundHeight = -9.5f;
 
     private void Awake()
     {
@@ -19,6 +21,13 @@ public class SideScrolling : MonoBehaviour
         //mathf.max returns the larget value of Max(a,b). if player moves left, the cameras holds its position, as it gets returned.
         cameraPosition.x = Mathf.Max(cameraPosition.x, player.position.x);
         //updates the camera position to the updates cameraPosition
+        transform.position = cameraPosition;
+    }
+
+    public void SetCameraUnderground(bool isUnderground)
+    {
+        Vector3 cameraPosition = transform.position;
+        cameraPosition.y = isUnderground ? undergroundHeight : height;
         transform.position = cameraPosition;
     }
 }

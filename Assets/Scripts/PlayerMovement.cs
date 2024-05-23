@@ -216,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (transform.DotTest(collision.transform, Vector2.down))
             {
-                velocity.y = jumpForce/2f; //half jumpsize
+                velocity.y = jumpForce; //half jumpsize
                 isJumping = true;
                 
             }

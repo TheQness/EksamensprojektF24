@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         set
         {
             _coinsCollected = value;
-            if (CoinsCollected >= 10)
+            if (CoinsCollected >= 100)
             {
                 _coinsCollected = 0;
                 AddLife();

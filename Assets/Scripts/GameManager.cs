@@ -5,10 +5,39 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {get; private set; } //Static GameManager, public getter, but private setter
 
+    private UIManager uiManager;
     public int world {get; private set; }
     public int stage {get; private set; }
-    public int playerLives {get; private set; }
-    public int coinsCollected {get; private set; }
+
+    private int _playerLives;
+
+    public int PlayerLives
+    {
+        get {return _playerLives; }
+        set 
+        {
+            _playerLives = value; 
+            UIManager uiManager = GameObject.FindObjectOfType<UIManager>();
+            uiManager.UpdateLifeUI();  
+        }
+    }
+
+    private int _coinsCollected;
+    public int CoinsCollected
+    {
+        get {return _coinsCollected; }
+        set
+        {
+            _coinsCollected = value;
+            if (CoinsCollected >= 10)
+            {
+                _coinsCollected = 0;
+                AddLife();
+            }
+            UIManager uiManager = GameObject.FindObjectOfType<UIManager>();
+            uiManager.UpdateCoinUI();
+        }
+    }
 
     private void Awake()
     {
@@ -39,8 +68,8 @@ public class GameManager : MonoBehaviour
 
     private void StartNewGame()
     {
-        playerLives = 3;
-        coinsCollected = 0;
+        PlayerLives = 3;
+        CoinsCollected = 0;
         LoadLevel(1, 1);
     }
 
@@ -71,8 +100,9 @@ public class GameManager : MonoBehaviour
 
     public void ResetLevel() //public to call this from other scripts
     {
-        playerLives --;
-        if (playerLives > 0)
+        SubtractLife();
+        CoinsCollected = 0;
+        if (PlayerLives > 0)
         {
             LoadLevel(world, stage);
         }
@@ -87,18 +117,19 @@ public class GameManager : MonoBehaviour
         Invoke(nameof(StartNewGame), 2f);
     }
 
+    
     public void AddCoin()
     {
-        coinsCollected ++;
-        if (coinsCollected == 100)
-        {
-            AddLife();
-            coinsCollected = 0;
-        }
+        CoinsCollected ++;
     }
 
     public void AddLife()
     {
-        playerLives++;
+        PlayerLives++;
+    }
+
+    public void SubtractLife()
+    {
+        PlayerLives--;
     }
 }

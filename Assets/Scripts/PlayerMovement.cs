@@ -6,6 +6,12 @@ using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 { 
+    private float shakeThreshold = 3.0f;
+    private float minShakeInterval = 0.5f;
+    private float shakeInterval = 5;
+    private float sqrShakeThreshold;
+    private bool isShaking = false;
+
     [Header("Variables for moving")]
     private new Camera camera; //using new keyword to not override existing camera
     private Rigidbody2D rigidBody; // Reference to the Rigidbody2D component of the player
@@ -47,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>(); //Getting reference to the Ridigbody component of Mario
         circleCollider = GetComponent<Collider2D>();
         camera = Camera.main; //getting reference to the main camera in the scene
+        sqrShakeThreshold = Mathf.Pow(shakeThreshold, 2);
     }
 
     private void OnDisable()
@@ -94,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
         position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
 
         rigidBody.MovePosition(position); //move the rigidbody to the updated position
+        DetectShake();
     }
 
     // Methods for horizontal movement
@@ -138,26 +146,47 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void DetectShake()
+    {
+        if (Input.acceleration.sqrMagnitude >= sqrShakeThreshold && shakeInterval >= minShakeInterval)
+        {
+            isShaking = true;
+            shakeInterval = 0f;
+        }
+        shakeInterval += Time.deltaTime;
+    }
+
     //Methods for jumping
-    public void Jump() //Called on trigger event PointerUp
+    public void Jump() //Called on trigger event PointerDown
     {
         if (isGrounded)
         {
             velocity.y = jumpForce; //add the jump force to make the character jump
             isJumping = true; //sets isJumping to true
-            return;
+        }
+        if (isJumping && isShaking)
+        {
+            ApplyGravity();
         }
     }
 
     private void ApplyGravity()
     {
+
+        if (isShaking)
+        {
+            float multiplierShake = 5f;
+            velocity.y += gravity * multiplierShake * 2f * Time.deltaTime;
+            velocity.y = Mathf.Max(velocity.y, gravity / 2f);
+            return;
+        }
         // check if falling
         bool isFalling = velocity.y < 0f || isJumpReleased == true; //checks if character is falling, returns true if velocity is negatve (falling downw)
         float multiplier = isFalling ?2f : 1f; // Apply multiplier based on falling state, falls faster when he´s falling by multiplying
 
 
         // apply gravity and terminal velocity
-        velocity.y += gravity *multiplier * Time.deltaTime; //
+        velocity.y += gravity * multiplier * Time.deltaTime; //
         velocity.y = Mathf.Max(velocity.y, gravity / 2f);
     }
 

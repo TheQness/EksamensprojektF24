@@ -23,7 +23,7 @@ public static class Extensions //does not inheret from MonoBehavior
 
    public static bool DotTest(this Transform transform, Transform other, Vector2 testDirection) //extension to the Transform class, calculates the dot product (angle) between the direction vector from Mario to the collided object
    {
-    float detectionThreshold = 0.50f; //threshold that detects, if the object is above him. if the angle is 
+    float detectionThreshold = 0.1f; //threshold that detects, if the object is above him. if the angle is 
     Vector2 direction = other.position - transform.position; //gives a vector that points from marios position to the collided objects direction. 
     return Vector2.Dot(direction.normalized, testDirection) > detectionThreshold; //normalized to set the length of vector to 1, as we are bot interested in the length, only the direction. measures how much the two vector points in the same direction
    // normalized makes the range of the dot product go between -1 and 1. 

@@ -167,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
         if (isJumping && isShaking)
         {
             ApplyGravity();
+            isShaking = false;
         }
     }
 

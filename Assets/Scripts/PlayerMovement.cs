@@ -6,11 +6,12 @@ using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 { 
-    private float shakeThreshold = 3.0f;
+    private float shakeThreshold = 1f;
     private float minShakeInterval = 0.5f;
     private float shakeInterval = 5;
     private float sqrShakeThreshold;
     private bool isShaking = false;
+    Vector3 lastAcceleration;
 
     [Header("Variables for moving")]
     private new Camera camera; //using new keyword to not override existing camera
@@ -122,12 +123,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void HorizontalMovement() //Method for horizontal movement, left and right
     {
-         //Calculates the target velocity for the rigid body
+        //Calculates the target velocity for the rigid body
         //velocity.x = current velocity of the rigid body in the x-axis
         //Mathf.Movetowards = moves the current velocity value towards the target value (inputAxis * movementspeed) slowly to simulate acceleration abd deacceleration
         //inputAxis * movementSpeed = the target value for the velocity
         //Movementspeed * Time.deltaTime = maximum change applied to the current value, ensures framerate independency and the desired acc and deacc
-        velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * movementSpeed, movementSpeed * Time.deltaTime);
+        float accelerationFactor = 1.5f;
+        velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * movementSpeed, movementSpeed * Time.deltaTime * accelerationFactor);
 
         if (rigidBody.Raycast(Vector2.right * velocity.x)) //checks if mario collides with wall, if true, velocity is set to 0
         {
@@ -148,12 +150,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void DetectShake()
     {
-        if (Input.acceleration.sqrMagnitude >= sqrShakeThreshold && shakeInterval >= minShakeInterval)
+        Vector3 acceleration = Input.acceleration;
+        Vector3 deltaAcceleration = acceleration - lastAcceleration;
+
+        if (deltaAcceleration.sqrMagnitude >= sqrShakeThreshold && shakeInterval >= minShakeInterval && isJumping)
         {
             isShaking = true;
             shakeInterval = 0f;
         }
         shakeInterval += Time.deltaTime;
+        lastAcceleration = acceleration;
     }
 
     //Methods for jumping
@@ -163,11 +169,7 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = jumpForce; //add the jump force to make the character jump
             isJumping = true; //sets isJumping to true
-        }
-        if (isJumping && isShaking)
-        {
-            ApplyGravity();
-            isShaking = false;
+            isJumpReleased = false;
         }
     }
 
@@ -176,10 +178,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (isShaking)
         {
-            float multiplierShake = 5f;
+            float multiplierShake = 50f;
             velocity.y += gravity * multiplierShake * 2f * Time.deltaTime;
-            velocity.y = Mathf.Max(velocity.y, gravity / 2f);
+            velocity.y = Mathf.Max(velocity.y, gravity * multiplierShake);
+            isShaking = false;
             return;
+
         }
         // check if falling
         bool isFalling = velocity.y < 0f || isJumpReleased == true; //checks if character is falling, returns true if velocity is negatve (falling downw)
@@ -201,6 +205,7 @@ public class PlayerMovement : MonoBehaviour
         //prevents gravity from building up
         velocity.y = Mathf.Max(velocity.y, 0f); //ensures velocity does not go below 0 or, returning the largest of the two values.
         isJumping = velocity.y > 0f; //checks isJumping based on vertical velocity, is true if velocity is positive (going up)
+        isShaking = false;
     }
 
     //METHODS FOR COLLISIONS

@@ -16,11 +16,10 @@ public class Pipe : MonoBehaviour
     {
         sqrShakeThreshold = Mathf.Pow(shakeThreshold, 2);
     }
-    
-    // && Input.acceleration.sqrMagnitude >= sqrShakeThreshold
+
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && connection != null)
+        if (other.CompareTag("Player") && connection != null && Input.acceleration.sqrMagnitude >= sqrShakeThreshold)
         {
             StartCoroutine(EnterPipe(other.transform));
         }

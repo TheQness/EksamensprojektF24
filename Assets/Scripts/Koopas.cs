@@ -6,100 +6,101 @@ using TMPro;
 
 public class Koopas : Enemy
 {
-    [SerializeField] private Sprite shellSprite;
-    public bool isShelled;
-    public bool isPushed;
-    private float shellSpeed = 12f;
+    [SerializeField] private Sprite shellSprite; //sprite to use when the Koopa is in its shell
+    public bool isShelled; // Bool to check if the Koopa is in its shell state
+    public bool isPushed; // Bool to check if the Koopa's shell is being pushed
+    private float shellSpeed = 12f; // Speed of the Koopa's shell when pushed
 
-    protected virtual void Awake()
+    protected override void Awake() // Override the Awake method from the base Enemy class
     {
-        animatedSprites = GetComponent<AnimatedSprites>();
-        deathAnimation =  GetComponent<DeathAnimation>();
-        livesText = GetComponentInChildren<TMP_Text>();
-        mediumYPosition = 0.38f;
-        largeYPosition = 0.75f;
+        // Initialize base class fields and properties
+        animatedSprites = GetComponent<AnimatedSprites>(); // Get reference to the AnimatedSprites component
+        deathAnimation =  GetComponent<DeathAnimation>(); // Get reference to the DeathAnimation component
+        livesText = GetComponentInChildren<TMP_Text>(); // Get reference to the TMP_Text component in children
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        entityMovement = GetComponent<EntityMovement>();
+        mediumYOffset = 0.38f; // Set medium Y offset
+        largeYOffset = 0.75f; // Set large Y offset
     }
 
-    protected virtual void Hit()
+    protected override void Hit()  // Override the Hit method from the base Enemy class
     {
-        if (enemyLives >= 2)
+        if (enemyLives > 1) // Check if the Koopa has more than 1 life
         {
-            SubtractLife();
-            DisplayLives();
+            SubtractLife(); // Subtract one life from the Koopa
         }
-        else if (enemyLives == 1)
+        else if (enemyLives == 1) // Check if the Koopa has exactly one life left
         {
-            EnterShell();
+            EnterShell(); // Call the EnterShell method to enter the shell state
         }
     }
 
-    private void EnterShell()
+    private void EnterShell() // Private method to handle the Koopa entering its shell state
     {
-        isShelled = true;
-        GetComponent<EntityMovement>().enabled = false;
-        GetComponent<AnimatedSprites>().enabled = false;
-        GetComponent<SpriteRenderer>().sprite = shellSprite;
+        isShelled = true; // Set isShelled to true
+        entityMovement.enabled = false; // Disable the EntityMovement component
+        animatedSprites.enabled = false; // Disable the AnimatedSprites component
+        spriteRenderer.sprite = shellSprite; // Change the sprite to the shell sprite
     }
 
-    private void PushShell(Vector2 direction)
+    private void PushShell(Vector2 direction)  // Private method to handle the Koopa's shell being pushed
     {
-        isPushed = true;
-        GetComponent<Rigidbody2D>().isKinematic = false;
-        EntityMovement movement = GetComponent<EntityMovement>();
-        movement.direction = direction.normalized;
-        movement.speed = shellSpeed;
-        movement.enabled = true;
-        gameObject.layer = LayerMask.NameToLayer("Shell");
+        isPushed = true; // Set isPushed to true
+        GetComponent<Rigidbody2D>().isKinematic = false;  // Disable kinematic mode on the Rigidbody2D component
+        entityMovement.direction = direction.normalized; // Set the movement direction to the normalized direction vector
+        entityMovement.speed = shellSpeed; // Set the movement speed to shellSpeed
+        entityMovement.enabled = true; // Enable the EntityMovement component
+        gameObject.layer = LayerMask.NameToLayer("Shell"); // Change the game object's layer to "Shell"
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D other)
+    protected override void OnTriggerEnter2D(Collider2D other)  // Override the OnTriggerEnter2D method from the base Enemy class
     {
-        if (isShelled && other.CompareTag("Player"))
+        if (isShelled && other.CompareTag("Player")) // Check if the Koopa is in its shell state and the collider is the player
         {
-            if (!isPushed)
+            if (!isPushed) // Check if the shell is not being pushed
             {
-                Vector2 direction = new Vector2(transform.position.x - other.transform.position.x, 0f);
-                PushShell(direction);
+                Vector2 direction = new Vector2(transform.position.x - other.transform.position.x, 0f); // Calculate the direction vector when collided with
+                PushShell(direction); // Call the PushShell method with the calculated direction
             }
             else
             {
-                Player player = other.GetComponent<Player>();
-                if (player.starPower)
+                Player player = other.GetComponent<Player>();// Get reference to the Player component from the collided objects
+                if (player.starPower) // Check if the player has star power
                 {
-                    Die();
+                    Die(); // Call the Die method to destroy the Koopa
                 }
                 else
                 {
-                    player.Hit();
+                    player.Hit(); // Call the Hit method on the player to deal damage
                 }
             }
         }
-        else if (!isShelled && other.gameObject.layer == LayerMask.NameToLayer("Shell"))
+        else if (!isShelled && other.gameObject.layer == LayerMask.NameToLayer("Shell")) // Check if the Koopa is not in its shell state and collides with another shell
         {
-            Die();
+            Die();// Call the Die method to destroy the Koopa
         }
-        if (other.CompareTag("DeathBarrier"))
+        if (other.CompareTag("DeathBarrier")) // Check if the Koopa collides with the death barrier
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Destroy the Koopa game object
         }
     }
 
-    protected virtual void OnCollisionEnter2D(Collision2D other)
+    protected override void OnCollisionEnter2D(Collision2D other) // Override the OnCollisionEnter2D method from the base Enemy class
     {
-        if (!isShelled && other.gameObject.CompareTag("Player"))
+        if (!isShelled && other.gameObject.CompareTag("Player")) // Check if the Koopa is not in its shell state and collides with the player
         {
-            Player player = other.gameObject.GetComponent<Player>();
-            if (player.starPower)
+            Player player = other.gameObject.GetComponent<Player>(); // Get reference to the Player component
+            if (player.starPower) // Check if the player has star power
             {
-                Die();
+                Die(); // Call the Die method to destroy the Koopa
             }
-            else if (other.transform.DotTest(transform, Vector2.down))
+            else if (other.transform.DotTest(transform, Vector2.down)) // Check if the player hits the Koopa from above using a dot test
             {
-                Hit();
+                Hit(); // Call the Hit method to deal damage to the Koopa
             }
             else
             {
-                player.Hit();
+                player.Hit(); // Call the Hit method on the player to deal damage
             }
         }
 

@@ -4,44 +4,44 @@ using UnityEngine;
 
 public class PlayerSpriteRenderer : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer { get; private set; }
-    private PlayerMovement movement;
+    public SpriteRenderer spriteRenderer { get; private set; } // Reference to the SpriteRenderer component.
+    private PlayerMovement playerMovement;
 
-    public Sprite idle;
-    public Sprite jump;
-    public Sprite turn;
-    public AnimatedSprites run;
+    public Sprite idle; // Sprite for idle state.
+    public Sprite jump; // Sprite for jumping state.
+    public Sprite turn;  // Sprite for turning state.
+    public AnimatedSprites run; // Animated sprites for running state.
         
     private void Awake()
     {
-        movement = GetComponentInParent<PlayerMovement>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerMovement = GetComponentInParent<PlayerMovement>(); // Get the PlayerMovement component from the parent object.
+        spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component from this object.
     }
 
     private void OnEnable()
     {
-        spriteRenderer.enabled = true;
+        spriteRenderer.enabled = true; // Enable the sprite renderer when the object is enabled.
     }
 
     private void OnDisable()
     {
-        spriteRenderer.enabled = false;
-        run.enabled = false;
+        spriteRenderer.enabled = false; // Disable the sprite renderer when the object is disabled.
+        run.enabled = false; // Disable the animated sprites for running.
     }
 
     private void LateUpdate() //physics is updated before changing the sprites
     {
-        run.enabled = movement.isRunning;
-        if (movement.isJumping)
+        run.enabled = playerMovement.isRunning; // Enable or disable the running animation based on the player's movement.
+        if (playerMovement.isJumping) // If the player is jumping.
         {
-            spriteRenderer.sprite = jump;
+            spriteRenderer.sprite = jump; // Set the sprite to the jumping sprite.
         }
-        else if (movement.isTurning)
+        else if (playerMovement.isTurning)
         {
             spriteRenderer.sprite = turn;
         }
 
-        else if (!movement.isRunning)
+        else if (!playerMovement.isRunning)
         {
             spriteRenderer.sprite = idle;
         }

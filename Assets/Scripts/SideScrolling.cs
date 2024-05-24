@@ -4,30 +4,26 @@ using UnityEngine;
 
 public class SideScrolling : MonoBehaviour
 {
-    private Transform player;
-    public float height = 6.5f;
-    public float undergroundHeight = -9.5f;
+    private Transform player; // Reference to the player's transform.
+    public float defaultHeight = 6.5f;  // Default height of the camera.
+    public float undergroundHeight = -9.5f; // Height of the camera when the player is underground.
 
     private void Awake()
     {
-        player = GameObject.FindWithTag("Player").transform;
-    }
-    // using lateupdate garantues that the camera posotion updates after marios position is updated in fixedupdate
-    private void LateUpdate()
-    { 
-        //gets current position of camera and stores it in a vector 3 called cameraPosition
-        Vector3 cameraPosition = transform.position;
-        // updates the x-position of the cameras position to match the players x-position, but ensures it never moves left
-        //mathf.max returns the larget value of Max(a,b). if player moves left, the cameras holds its position, as it gets returned.
-        cameraPosition.x = Mathf.Max(cameraPosition.x, player.position.x);
-        //updates the camera position to the updates cameraPosition
-        transform.position = cameraPosition;
+        player = GameObject.FindWithTag("Player").transform; // Find the player GameObject with the tag "Player" and get its transform.
     }
 
-    public void SetCameraUnderground(bool isUnderground)
+    private void LateUpdate() // using lateupdate garantues that the camera posotion updates after marios position is updated in fixedupdate
+    { 
+        Vector3 cameraPosition = transform.position; // Get the current position of the camera and store it in a Vector3 called cameraPosition.
+        cameraPosition.x = Mathf.Max(cameraPosition.x, player.position.x); // Update the x-position of the camera to match the player's x-position but ensure it never moves left.
+        transform.position = cameraPosition; //updates the camera position to the updated cameraPosition
+    }
+
+    public void SetCameraUnderground(bool isUnderground)  // Method to set the camera's position when the player is underground or above ground.
     {
-        Vector3 cameraPosition = transform.position;
-        cameraPosition.y = isUnderground ? undergroundHeight : height;
-        transform.position = cameraPosition;
+        Vector3 cameraPosition = transform.position; // Get the current position of the camera.
+        cameraPosition.y = isUnderground ? undergroundHeight : defaultHeight;  // Set the y-position of the camera to undergroundHeight if isUnderground is true, otherwise set it to the default height.
+        transform.position = cameraPosition; // Update the camera position to the updated cameraPosition.
     }
 }

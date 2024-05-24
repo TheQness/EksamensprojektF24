@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class Koopas : Enemy
 {
@@ -8,6 +10,15 @@ public class Koopas : Enemy
     public bool isShelled;
     public bool isPushed;
     private float shellSpeed = 12f;
+
+    protected virtual void Awake()
+    {
+        animatedSprites = GetComponent<AnimatedSprites>();
+        deathAnimation =  GetComponent<DeathAnimation>();
+        livesText = GetComponentInChildren<TMP_Text>();
+        mediumYPosition = 0.38f;
+        largeYPosition = 0.75f;
+    }
 
     protected virtual void Hit()
     {

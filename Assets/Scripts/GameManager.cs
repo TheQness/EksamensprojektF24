@@ -123,6 +123,11 @@ public class GameManager : MonoBehaviour
         CoinsCollected ++;
     }
 
+    public void AddCoin(int coins)
+    {
+        CoinsCollected += coins;
+    }
+
     public void AddLife()
     {
         PlayerLives++;

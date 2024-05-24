@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Gombaas : Enemy
 {
@@ -8,10 +9,11 @@ public class Gombaas : Enemy
 
     protected override void Hit()
     {
-        if (enemyLives >= 2)
+        if (enemyLives > 1)
         {
             SubtractLife();
             DisplayLives();
+            Debug.Log("Goomba hit");
         }
         else if (enemyLives == 1)
         {
@@ -26,6 +28,7 @@ public class Gombaas : Enemy
         GetComponent<AnimatedSprites>().enabled = false;
         GetComponent<SpriteRenderer>().sprite = flatSprite;
         Destroy(gameObject, 0.5f);
+        Debug.Log("Goomba flattened");
     }
 }
 

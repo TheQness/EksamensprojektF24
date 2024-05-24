@@ -19,7 +19,8 @@ public class Pipe : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && connection != null && Input.acceleration.sqrMagnitude >= sqrShakeThreshold)
+        //&& Input.acceleration.sqrMagnitude >= sqrShakeThreshold
+        if (other.CompareTag("Player") && connection != null)
         {
             StartCoroutine(EnterPipe(other.transform));
         }

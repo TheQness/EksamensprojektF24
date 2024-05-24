@@ -211,6 +211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 1, y: 0}
   speed: 3
+  largeRaycastDistance: 1.1
 --- !u!114 &-4125569162754551322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,4 +236,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc7887de33b1b1469efa1544e01ab81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  type: 3

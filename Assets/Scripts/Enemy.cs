@@ -11,10 +11,10 @@ public class Enemy : MonoBehaviour
     protected int enemyLives;
     protected Vector3 smallScaleSize = new Vector3(1, 1, 1);
     protected Vector3 mediumScaleSize = new Vector3(1.5f, 1.5f, 1.5f);
-    protected Vector3 largeScaleSize = new Vector3(2.5f, 2.5f, 2.5f);
+    protected Vector3 largeScaleSize = new Vector3(2f, 2f, 2f);
     protected float smallYPosition = 0f;
     protected float mediumYPosition = 0.25f;
-    protected float largeYPosition = 0.75f;
+    protected float largeYPosition = 0.5f;
 
     public enum Size
     {
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     }
     public Size size;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         animatedSprites = GetComponent<AnimatedSprites>();
         deathAnimation =  GetComponent<DeathAnimation>();
@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
             }
             case Size.Large:
             {
-                enemyLives = 4;
+                enemyLives = 6;
                 break;
             }
             default:
@@ -89,16 +89,21 @@ public class Enemy : MonoBehaviour
         if (enemyLives >= 0 && enemyLives <= 2)
         {   
             transform.position = CalculateNewPosition(smallYPosition);
+            Debug.Log(transform.position);
             transform.localScale = smallScaleSize;
+
         }
         else if (enemyLives >= 3 && enemyLives <= 4)
         {
             transform.position = CalculateNewPosition(mediumYPosition);
+            Debug.Log(transform.position);
             transform.localScale = mediumScaleSize;
+            
         }
         else if (enemyLives >= 5)
         {
             transform.position = CalculateNewPosition(largeYPosition);
+            Debug.Log(transform.position);
             transform.localScale = largeScaleSize;
         }
     }
@@ -155,5 +160,4 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
 }

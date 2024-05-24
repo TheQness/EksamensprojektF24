@@ -7,6 +7,7 @@ public class PowerUp : MonoBehaviour
     public enum Type
     {
         Coin,
+        SuperCoin,
         ExtraLife,
         MagicMushroom,
         StarPower,
@@ -28,6 +29,10 @@ public class PowerUp : MonoBehaviour
         {
             case Type.Coin:
             GameManager.Instance.AddCoin();
+                break;
+            
+            case Type.SuperCoin:
+            GameManager.Instance.AddCoin(50);
                 break;
             
             case Type.ExtraLife:

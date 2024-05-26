@@ -75,9 +75,10 @@ public class PlayerMovement : MonoBehaviour
 
         if(isGrounded) //If Mario is grounded, perform grounded movement and reset the isJumpRealeased bool
         {
+            isShaking = false;
             GroundedMovement();
         }
-
+        DetectShake(); // Check for shake movement
         ApplyGravity(); // Apply gravity to Mario's vertical velocity.
     }
 
@@ -122,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         if (isShaking) // If the character is shaking (e.g., due to a shake gesture), apply increased gravity.
         {
             float multiplierShake = 50f; // Define a multiplier to increase the gravity effect during shaking.
-            velocity.y += gravity * multiplierShake * 2f * Time.deltaTime; // Apply increased gravity to the vertical velocity, multiplied by the shake multiplier and time.
+            velocity.y += gravity * multiplierShake * Time.deltaTime; // Apply increased gravity to the vertical velocity, multiplied by the shake multiplier and time.
             velocity.y = Mathf.Max(velocity.y, gravity * multiplierShake); // Ensure the vertical velocity doesn't exceed the maximum shake-induced gravity.
             isShaking = false;
             return;
@@ -145,7 +146,6 @@ public class PlayerMovement : MonoBehaviour
         position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f); //restrict the x-coordinate of players position within a specific range. 0.5+- ensures it stays slightly to the left and right of the edges.
 
         rigidBody.MovePosition(position); //move the rigidbody to the updated position
-        DetectShake(); // Check for shake movement
     }
 
     private void DetectShake()

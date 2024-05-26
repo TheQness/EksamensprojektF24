@@ -5,7 +5,7 @@ using UnityEngine;
 public class DeathAnimation : MonoBehaviour
 {
     public Sprite deathSprite; // Sprite to be displayed during the death animation.
-    public SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer component.
+    private SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer component.
     private float upwardsVelocity = 10f; // Initial upward velocity for the death animation.
     private float gravity = -36f; // Acceleration due to gravity.
 

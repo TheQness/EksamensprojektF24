@@ -11,7 +11,7 @@ public class FlagPole : MonoBehaviour
     public Transform flag; // The flag object at the top of the pole.
     public Transform poleBottom; //// The bottom of the flag pole.
     public Transform castle; // The castle to move the player towards.
-    public float speed = 4f; // The speed at which objects move.
+    private float speed = 4f; // The speed at which objects move.
     private float distanceThreshold = 0.125f; // The minimum distance required to consider an object having "reached" its destination.
 
     private void OnTriggerEnter2D(Collider2D other)

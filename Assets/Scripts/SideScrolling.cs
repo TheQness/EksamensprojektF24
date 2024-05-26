@@ -5,8 +5,8 @@ using UnityEngine;
 public class SideScrolling : MonoBehaviour
 {
     private Transform player; // Reference to the player's transform.
-    public float defaultHeight = 6.5f;  // Default height of the camera.
-    public float undergroundHeight = -9.5f; // Height of the camera when the player is underground.
+    private const float defaultHeight = 6.5f;  // Default height of the camera.
+    private const float undergroundHeight = -9.5f; // Height of the camera when the player is underground.
 
     private void Awake()
     {

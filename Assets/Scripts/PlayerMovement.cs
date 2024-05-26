@@ -8,10 +8,10 @@ public class PlayerMovement : MonoBehaviour
 { 
     private float shakeThreshold = 1f; // Threshold for detecting shake movement
     private float minShakeInterval = 0.5f; // Minimum time between two shakes
-    private float shakeInterval = 5; // Current interval between shakes
+    private float shakeInterval = 5f; // Current interval between shakes
     private float sqrShakeThreshold; // Square of the shake threshold for optimized comparison
     private bool isShaking = false; // Bool to indicate if the device is shaking
-    Vector3 lastAcceleration; //// Last recorded acceleration for shake detection
+    private Vector3 lastAcceleration; //// Last recorded acceleration for shake detection
 
     [Header("Variables for moving")]
     private new Camera camera; //Reference to the camera. using new keyword to not override existing camera
@@ -40,8 +40,6 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f); //Property to calculate the force needed to achieve the desired max jump height and time
     
     public float gravity => (-2 * maxJumpHeight) / Mathf.Pow((maxJumpTime / 2f), 2); //property to calculates the gravitational force applied to the character to make it fall back to the ground. Squaring the time to account for gravitational acceleration.
-    private bool isJumpReleased = false;
-
 
     void Awake()
     {
@@ -78,7 +76,6 @@ public class PlayerMovement : MonoBehaviour
         if(isGrounded) //If Mario is grounded, perform grounded movement and reset the isJumpRealeased bool
         {
             GroundedMovement();
-            isJumpReleased = false;
         }
 
         ApplyGravity(); // Apply gravity to Mario's vertical velocity.
@@ -131,8 +128,6 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         }
-        // check if falling
-        bool isFalling = velocity.y < 0f || isJumpReleased == true; //checks if character is falling, returns true if velocity is negatve (falling downw)
         float multiplier = isFalling ?2f : 1f; // Apply multiplier based on falling state, falls faster when hes falling by multiplying with 2
 
         velocity.y += gravity * multiplier * Time.deltaTime; // Increment the vertical velocity by applying gravity, multiplied by the gravity multiplier and time.
@@ -191,13 +186,7 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = jumpForce; //add the jump force to make the character jump
             isJumping = true; //sets isJumping to true
-            isJumpReleased = false; //sets isJumpReleased to false
         }
-    }
-
-    public void ReleaseJump()
-    {
-        isJumpReleased = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) //checks if character collides with a block above him to or jumps on top of an enemy
@@ -226,11 +215,5 @@ public class PlayerMovement : MonoBehaviour
         {
             isTouchingPole = true; // Set the 'isTouchingPole' flag to true.
         }
-    }
-
-
-
-
-
-    
+    } 
 }

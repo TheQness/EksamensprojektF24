@@ -13,11 +13,11 @@ public class EntityMovement : MonoBehaviour
     // Raycast distances for different entity sizes.
     private float smallRaycastDistance = 0.375f;
     private float mediumRaycastDistance = 0.6f;
-    public float largeRaycastDistance = 1.1f;
+    private float largeRaycastDistance = 1.1f;
 
     private void Awake()
     {
-        // Get the Rigidbody2D and SpriteRenderer components.
+        // Get the Rigidbody2D and SpriteRenderer components.s
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         enabled = false; // Disable the script initially

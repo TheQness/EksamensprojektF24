@@ -9,7 +9,7 @@ public class Koopas : Enemy
     [SerializeField] private Sprite shellSprite; //sprite to use when the Koopa is in its shell
     public bool isShelled; // Bool to check if the Koopa is in its shell state
     public bool isPushed; // Bool to check if the Koopa's shell is being pushed
-    private float shellSpeed = 12f; // Speed of the Koopa's shell when pushed
+    private const float shellSpeed = 12f; // Speed of the Koopa's shell when pushed
 
     protected override void Awake() // Override the Awake method from the base Enemy class
     {

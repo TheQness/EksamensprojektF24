@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
         smallRenderer.enabled = false; // Disable the small renderer.
         bigRenderer.enabled = false; // Disable the big renderer.
         deathAnimation.enabled = true; // Enable the death animation.
-        GameManager.Instance.ResetLevel(3.5f); // Reset the level after a delay.
+        GameManager.Instance.ResetLevel(2f); // Reset the level after a delay.
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -126,7 +126,4 @@ public class Player : MonoBehaviour
         activeRenderer.spriteRenderer.color = Color.white; //sets color back to "normal"
         starPower = false; //Disables starpower
     }
-
-
-    
 }

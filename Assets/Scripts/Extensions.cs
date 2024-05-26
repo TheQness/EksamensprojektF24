@@ -4,8 +4,7 @@ using UnityEngine;
 
 public static class Extensions //does not inheret from MonoBehavior
 {
-    private const string defaultLayerMask = "Default"; //Constant string representing the default layer name. safety to ensure correct layermask is ignored.
-    private static LayerMask layerMask = LayerMask.GetMask(defaultLayerMask); // Default layer mask retrieved using the default layer name..
+    private static LayerMask layerMask = LayerMask.GetMask("Default"); // Default layer mask retrieved using the default layer name..
 
     public static bool Raycast(this Rigidbody2D rigidBody, Vector2 direction, float distance = 0.375f)  // Extension method to perform a circle raycast from a Rigidbody2D. Returns a bool
     {

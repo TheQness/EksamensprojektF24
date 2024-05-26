@@ -4,9 +4,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {get; private set; } // Singleton instance of GameManager.  public getter, but private setter
-
-    private UIManager uiManager; //Reference to uiManager
-
     // Private field and public property for the world number
     private int _world;
     public int World
@@ -36,7 +33,7 @@ public class GameManager : MonoBehaviour
     public int PlayerLives
     {
         get {return _playerLives; } // Getter for PlayerLives
-        set 
+        private set 
         {
             _playerLives = value; //Set _playerLives to the provided value
             UIManager uiManager = GameObject.FindObjectOfType<UIManager>(); // Find UIManager in the scene
@@ -49,7 +46,7 @@ public class GameManager : MonoBehaviour
     public int CoinsCollected
     {
         get {return _coinsCollected; }// Getter for CoinsCollected
-        set
+        private set
         {
             _coinsCollected = value; // Set _coinsCollected to the provided value
             if (_coinsCollected >= 100) // If collected coins reach 100, reset to 0 and Add an extra life
@@ -112,10 +109,10 @@ public class GameManager : MonoBehaviour
 
     public void ResetLevel(float delay)
     {
-        Invoke(nameof(ResetLevel), 3f); // Invoke the ResetLevel method after the specified delay
+        Invoke(nameof(ResetLevel), delay); // Invoke the ResetLevel method after the specified delay
     }
 
-    public void ResetLevel() //Method to reset the current Level
+    private void ResetLevel() //Method to reset the current Level
     {
         SubtractLife(); // Subtract one life
         CoinsCollected = 0;  //Reset collected coins to 0

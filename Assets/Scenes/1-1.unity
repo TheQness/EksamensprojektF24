@@ -1195,7 +1195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3580028340827718799, guid: 53fb7085c07284b42929df764dccd00a, type: 3}
       propertyPath: size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8542217990327309714, guid: 53fb7085c07284b42929df764dccd00a, type: 3}
       propertyPath: m_CollisionDetection
@@ -11782,7 +11782,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3580028340827718799, guid: 53fb7085c07284b42929df764dccd00a, type: 3}
       propertyPath: size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8742714310021684526, guid: 53fb7085c07284b42929df764dccd00a, type: 3}
       propertyPath: m_LocalScale.x

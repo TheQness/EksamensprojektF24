@@ -3,8 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Enemy : MonoBehaviour
+public abstract class Abstract : MonoBehaviour
 {
+    /// <summary>
+    /// Like interfaces, abstract classes cannot be used to create objects
+    /// Any class that subclasses from an abstract class must fully implement all variables and methods marked with the abstract keyword.
+    /// They can be particularly useful in situations where you want to use class inheritance without having to write out a base class’s default implementation
+    /// Abstract classes can contain abstract methods, which are declared without any implementation. These methods must be implemented by any non-abstract derived class.
+    /// Can contain variables / fields values
+    ///Abstract classes can also contain regular methods, properties, fields, and events with implementations.
+    /// Abstract classes are often used to define common behavior or structure among a group of related classes.
+    /// Abstract classes define a contract for derived classes by specifying the methods they must implement.
+    ///  huge efficiency boost to your code base, breaking away from long, messy subclassing hierarchies
+    /// </summary>
+
     protected TMP_Text livesText; // Reference to the TMP_Text component for displaying enemy lives.
     protected AnimatedSprites animatedSprites; // Reference to the AnimatedSprites component for enemy animations.
     protected DeathAnimation deathAnimation; // Reference to the DeathAnimation script on the enemy.
@@ -26,24 +38,7 @@ public class Enemy : MonoBehaviour
     }
     public Size size; // The size of the enemy, gets set in inspector
 
-    /// <summary>
-    ///  an enumeration type is a set, or collection, of named constants that belong to the same variable. 
-    /// These are useful when you want a collection of different values, but with the added benefit of them all being of the same parent type.
-    /// They can store underlying types!
-    /// underlying types for enumerations are limited to byte, sbyte, short, ushort, int, uint, long, and ulong. 
-    /// These are called integral types, which are used to specify the size of numeric values that a variable can store.
-    /// There’s no rule that says underlying values need to start at 0; in fact, all you have to do is specify the first value, and then C# increments the rest of the values for you.
-    /// if we wanted the PlayerAction enum to hold non-sequential values, we could explicitly add them in
-    /// </summary>
-
-    protected virtual void Awake()
-    {
-        animatedSprites = GetComponent<AnimatedSprites>(); // Retrieves the AnimatedSprites component.
-        deathAnimation =  GetComponent<DeathAnimation>(); // Retrieves the DeathAnimation component.
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        entityMovement = GetComponent<EntityMovement>();
-        livesText = GetComponentInChildren<TMP_Text>(); // Retrieves the TMP_Text component from child objects.
-    }
+    protected abstract void Awake();
 
     private void Start()
     {
@@ -52,17 +47,8 @@ public class Enemy : MonoBehaviour
         DisplayLives(); // Updates the display of enemy lives.
     }
 
-    protected virtual void Hit()
-    {
-        if (enemyLives >= 2) // If enemy has 2 lives or more, Subtracts a enemylife and displays the lives
-        {
-            SubtractLife();
-        }
-        else if (enemyLives == 1) //If enemy has 1 life, it dies and initiates the death sequence. when hit
-        {
-            Die();
-        }
-    }
+    protected abstract void Hit();
+
 
     private void DisplayLives()
     {
@@ -143,35 +129,8 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject, 3f); // Destroys the enemy object after a delay of 3 seconds
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Shell")) //Checks layer of trigger collider
-        {
-            Die(); // Initiates death when hit by a shell.
-        }
-        if (other.CompareTag("DeathBarrier"))
-        {
-            Destroy(gameObject); // Destroys the enemy when it hits a death barrier.
-        }
-    }
+    protected abstract void OnTriggerEnter2D(Collider2D other);
 
-    protected virtual void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Player player = other.gameObject.GetComponent<Player>(); // Retrieves the Player component from the collided object.
-            if (player.starPower)
-            {
-                Die(); // Initiates death if the player has star power.
-            }
-            else if (other.transform.DotTest(transform, Vector2.down)) //performs DotTest to if collision happenedes from above.
-            {
-                Hit(); //Initiates hit if the player stomped on the enemy
-            }
-            else
-            {
-                player.Hit(); //Player gets hit if nothing else is true
-            }
-        }
-    }
+    protected abstract void OnCollisionEnter2D(Collision2D other);
+    
 }
